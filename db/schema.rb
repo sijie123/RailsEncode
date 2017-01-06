@@ -12,24 +12,21 @@
 
 ActiveRecord::Schema.define(version: 20170105045250) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "encode_jobs", force: :cascade do |t|
-    t.text     "params"
+  create_table "encode_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.text     "params",     limit: 65535
     t.string   "title"
     t.string   "filename"
     t.integer  "user_id"
     t.integer  "phase"
     t.string   "outname"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.boolean  "download"
     t.integer  "server_id"
     t.string   "extras"
   end
 
-  create_table "servers", force: :cascade do |t|
+  create_table "servers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.string   "ip"
     t.integer  "threads"
@@ -37,7 +34,7 @@ ActiveRecord::Schema.define(version: 20170105045250) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.string   "username"
     t.string   "email"
