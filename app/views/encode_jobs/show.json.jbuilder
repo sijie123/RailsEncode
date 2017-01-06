@@ -1,0 +1,1 @@
+json.partial! "encode_jobs/encode_job", encode_job: @encode_job

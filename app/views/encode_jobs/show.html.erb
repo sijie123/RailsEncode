@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<table class='table'>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Name</th>
+    <th>User</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+  <td><%= @encode_job.id %></td>
+  <td><%= @encode_job.title %></td>
+  <td><%= File.basename(@encode_job.filename) %></td>
+  <td><%= @encode_job.user_id %></td>
+  <td><%= humanStatus(@encode_job.phase) %></td>
+  </tr>
+</table>
+
+
+<%= link_to 'Edit', edit_encode_job_path(@encode_job) %> |
+<%= link_to 'Back', encode_jobs_path %>

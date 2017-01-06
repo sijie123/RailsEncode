@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Encode Jobs</h1>
+
+<table class='table table-striped'>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Name</th>
+    <th>User</th>
+    <th>Status</th>
+    <th>View</th>
+    <th>Edit</th>
+    <th>Cancel</th>
+  </tr>
+    <% @encode_jobs.each do |job| %>
+    <tr>
+  <td><%= job.id %></td>
+  <td><%= job.title %></td>
+  <td><%= File.basename(job.filename) %></td>
+  <td><%= job.user.name%></td>
+  <td><%= humanStatus(job.phase)%></td>
+  <td><%= link_to "View", job, class: "btn btn-primary" %></td>
+  <td><%= link_to 'Edit', edit_encode_job_path(job), class: "btn btn-warning"  %></td>
+  <td><%= link_to 'Cancel', job, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger"  %></td>
+    </tr>
+    <%end%>
+</table>
+
+<br>
+
+<%= link_to 'New Encode Job', new_encode_job_path %>
