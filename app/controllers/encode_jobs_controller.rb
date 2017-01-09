@@ -114,7 +114,7 @@ class EncodeJobsController < ApplicationController
       #params
       #params.require(:encode_job).permit(:vencoder, :preset, :tune, :crf, :aencoder, :abr, :upload, :title, :url)
       #params.require(:encode_job).require(:params).permit(:vencoder, :preset, :tune)
-      params.require(:encode_job).permit(:upload, :title, :url, params: [ :vencoder, :preset, :tune, :crf, :aencoder, :abr ])
+      params.require(:encode_job).permit(:upload, :title, :url, params: [ :video_codec, :x264_preset, :tune, :crf, :audio_codec, :abr ])
     end
     
 end

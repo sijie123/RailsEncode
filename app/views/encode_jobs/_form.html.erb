@@ -20,13 +20,13 @@
     <%=f.fields_for :params do |s| %>
     <div class="form-group">
   <%= s.label :Video_Encoder %>
-  <%= s.select :vencoder, options_for_select_vencoder, {}, prompt: 'Select One', class: "form-control" %>
+  <%= s.select :video_codec, options_for_select_vencoder, {}, prompt: 'Select One', class: "form-control" %>
   <%#= f.text_area :params, class: "form-control" %>
     </div>
     
     <div class="form-group">
   <%= s.label :preset %>
-  <%= s.select :preset, options_for_select_preset, {}, prompt: 'Select One', class: "form-control" %>
+  <%= s.select :x264_preset, options_for_select_preset, {}, prompt: 'Select One', class: "form-control" %>
   <%#= select_tag(:preset, options_for_select, class: "form-control") %>
     </div>
     
@@ -38,19 +38,19 @@
     
     <div class="form-group">
   <%= s.label :CRF%>
-  <%= s.number_field(:abr, :value=> 20, class: "form-control") %>
+  <%= s.number_field(:crf, :value=> 20, class: "form-control") %>
   <%#= text_field_tag(:crf, '128k', class: "form-control") %>
     </div>
     
     <div class="form-group">
   <%= s.label :Audio_Encoder %>
-  <%= s.select :aencoder, options_for_select_aencoder, {}, prompt: 'Select One', class: "form-control" %>
+  <%= s.select :audio_codec, options_for_select_aencoder, {}, prompt: 'Select One', class: "form-control" %>
   <%#= f.text_area :params, class: "form-control" %>
     </div>
     
     <div class="form-group">
   <%= s.label :audio_bitrate%>
-  <%= s.text_field(:crf, :value=> '128k', class:"form-control")%>
+  <%= s.text_field(:audio_bitrate, :value=> '128k', class:"form-control")%>
   
     </div>
   <% end%>  

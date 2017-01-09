@@ -4,6 +4,14 @@ class EncoderWorkerJob < ApplicationJob
   require 'uri'
   require 'streamio-ffmpeg'
   require 'httparty'
+  
+  def convert_crf(value)
+    ["-crf", value]
+  end
+  
+  def convert_tune(value)
+    ["-tune", value]
+  end
 
   def update_phase(phase, extras = '')
     @job.phase = phase;
@@ -96,12 +104,13 @@ class EncoderWorkerJob < ApplicationJob
       FFMPEG.ffprobe_binary = '/root/ffmpeg/ffprobe'
       movie = FFMPEG::Movie.new(@job.filename)
       
-      options = {
-      video_codec: "libx264", frame_rate: 10, resolution: "320x240", video_bitrate: 300, video_bitrate_tolerance: 100,
-      aspect: 1.333333, keyframe_interval: 90, x264_vprofile: "high", x264_preset: "slow",
-      audio_codec: "libfaac", audio_bitrate: 32, audio_sample_rate: 22050, audio_channels: 1,
-      threads: 2, custom: %w(-vf crop=60:60:10:10 -map 0:0 -map 0:1)
-      }
+      #options = {
+      #video_codec: "libx264", frame_rate: 10, resolution: "320x240", video_bitrate: 300, video_bitrate_tolerance: 100,
+      #aspect: 1.333333, keyframe_interval: 90, x264_vprofile: "high", x264_preset: "slow",
+      #audio_codec: "libfaac", audio_bitrate: 32, audio_sample_rate: 22050, audio_channels: 1,
+      #threads: 2, custom: %w(-vf crop=60:60:10:10 -map 0:0 -map 0:1)
+      #}
+      options = @job.params
       counter = 0
       movie.transcode(@job.outname, options) do |progress|
         if (counter % 2 == 0)
