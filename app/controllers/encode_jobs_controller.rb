@@ -63,21 +63,19 @@ class EncodeJobsController < ApplicationController
     p.delete(:upload)
     
     @encode_job = EncodeJob.new(p)
-    render plain: @encode_job.inspect
+    #render plain: @encode_job.inspect
     
-    x = EncoderWorkerJob.perform_later(@encode_job)
     #x.perform_later(@encode_job)
     
-=begin    respond_to do |format|
+    respond_to do |format|
       if @encode_job.save
-        
+        x = EncoderWorkerJob.perform_later(@encode_job)
         format.html { redirect_to @encode_job, notice: 'Encode job was successfully created.' }
         format.json { render :show, status: :created, location: @encode_job }
       else
         format.html { render :new }
         format.json { render json: @encode_job.errors, status: :unprocessable_entity }
       end
-=end
 
   end
 
