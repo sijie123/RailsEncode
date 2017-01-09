@@ -76,7 +76,7 @@ class EncodeJobsController < ApplicationController
         format.html { render :new }
         format.json { render json: @encode_job.errors, status: :unprocessable_entity }
       end
-
+    end
   end
 
   # PATCH/PUT /encode_jobs/1
