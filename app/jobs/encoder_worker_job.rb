@@ -93,7 +93,7 @@ class EncoderWorkerJob < ApplicationJob
     # Do something later
     begin
       FFMPEG.ffmpeg_binary = '/root/ffmpeg/ffmpeg-10bit'
-      FFMPEG.ffprobe_binary = 'root/ffmpeg/ffprobe'
+      FFMPEG.ffprobe_binary = '/root/ffmpeg/ffprobe'
       movie = FFMPEG::Movie.new(@job.filename)
       
       options = {
