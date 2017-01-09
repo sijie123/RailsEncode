@@ -36,22 +36,26 @@ class EncodeJobsController < ApplicationController
     if p[:upload]
       uploaded_file = p[:upload]
       #fname = "file.tmp"
-      fname = Rails.root.join(Workspace::Application.config.work_dir, Time.now().to_i.to_s + uploaded_file.original_filename)
+      partial = Time.now().to_i.to_s + uploaded_file.original_filename
+      fname = Rails.root.join(Workspace::Application.config.work_dir, partial)
+      oname = Rails.root.join(Workspace::Application.config.output_dir, partial)
       File.open(fname, 'wb') do |file|
         file.write(uploaded_file.read)
       end
       p[:filename] = fname
+      p[:outname] = oname
       p[:download] = false
     
     elsif p[:url]
       p[:filename] = p[:url]
+      p[:outname] = "tbd"
       p[:download] = true
       
     end
     
     p[:user_id] = current_user.id
     p[:phase] = 0
-    p[:outname] = "tbd"
+    
     p[:params] = pa.to_json
     p[:server_id] = 0
     p[:extras] = ''

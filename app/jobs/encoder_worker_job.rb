@@ -16,6 +16,11 @@ class EncoderWorkerJob < ApplicationJob
     update()
   end
   
+  def update_outname(outname)
+    @job.outname = outname
+    update()
+  end
+  
   def update_server()
     @job.server_id = @server_id
     update()
@@ -47,8 +52,10 @@ class EncoderWorkerJob < ApplicationJob
   end
   
   def download()
-    filename = @fileroot + Time.now().to_i.to_s + File.basename(URI.parse(@job.filename).path)
+    partial = Time.now().to_i.to_s + File.basename(URI.parse(@job.filename).path)
+    filename = @fileroot + partial
     p filename
+    outname = @fileout + partial
     begin
 #      f = open(filename, "w+")
       #x = HTTP.get(@job.filename)
@@ -72,7 +79,7 @@ class EncoderWorkerJob < ApplicationJob
         end
       end
 
-     
+     update_outname(outname)
      update_filename(filename)
      update_phase(2, '0');
 
@@ -85,7 +92,10 @@ class EncoderWorkerJob < ApplicationJob
   def encode()
     # Do something later
     begin
+      FFMPEG.ffmpeg_binary = '/root/ffmpeg/ffmpeg-10bit'
+      FFMPEG.ffprobe_binary = 'root/ffmpeg/ffprobe'
       movie = FFMPEG::Movie.new(@job.filename)
+      
       options = {
       video_codec: "libx264", frame_rate: 10, resolution: "320x240", video_bitrate: 300, video_bitrate_tolerance: 100,
       aspect: 1.333333, keyframe_interval: 90, x264_vprofile: "high", x264_preset: "slow",
@@ -121,6 +131,7 @@ class EncoderWorkerJob < ApplicationJob
     @password = Workspace::Application.config.password
     @server_id = Workspace::Application.config.server_id
     @fileroot = Workspace::Application.config.work_dir
+    @fileout = Workspace::Application.config.output_dir
     
     return if (@job.phase != 0) #ensures that any failed or dead tasks don't start again.
     
