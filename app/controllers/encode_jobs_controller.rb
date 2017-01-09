@@ -61,8 +61,8 @@ class EncodeJobsController < ApplicationController
     @encode_job = EncodeJob.new(p)
     render plain: @encode_job.inspect
     
-    x = EncoderWorkerJob.new(@encode_job)
-    x.perform_later(@encode_job)
+    x = EncoderWorkerJob.perform_later(@encode_job)
+    #x.perform_later(@encode_job)
     
 =begin    respond_to do |format|
       if @encode_job.save
