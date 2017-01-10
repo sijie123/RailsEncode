@@ -2,15 +2,20 @@ class EncoderWorkerJob < ApplicationJob
   queue_as :default
   require 'net/sftp'
   require 'uri'
-  require 'streamio-ffmpeg'
+  include 'streamio-ffmpeg'
   require 'httparty'
   
-  def convert_crf(value)
-    ["-crf", value]
-  end
+  module FFMPEG
+    class EncodingOptions < Hash
+      
+      def convert_crf(value)
+        ["-crf", value]
+      end
   
-  def convert_tune(value)
-    ["-tune", value]
+      def convert_tune(value)
+        ["-tune", value]
+      end
+    end
   end
 
   def update_phase(phase, extras = '')
