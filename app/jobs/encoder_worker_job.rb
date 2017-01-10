@@ -4,7 +4,7 @@ class EncoderWorkerJob < ApplicationJob
   require 'uri'
   require 'streamio-ffmpeg'
   require 'httparty'
-  require 'new.rb'
+  require 'FFMPEG_extend.rb'
 
   def update_phase(phase, extras = '')
     @job.phase = phase;
