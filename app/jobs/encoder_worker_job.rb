@@ -2,21 +2,9 @@ class EncoderWorkerJob < ApplicationJob
   queue_as :default
   require 'net/sftp'
   require 'uri'
-  include 'streamio-ffmpeg'
+  require 'streamio-ffmpeg'
   require 'httparty'
-  
-  module FFMPEG
-    class EncodingOptions < Hash
-      
-      def convert_crf(value)
-        ["-crf", value]
-      end
-  
-      def convert_tune(value)
-        ["-tune", value]
-      end
-    end
-  end
+  require 'new.rb'
 
   def update_phase(phase, extras = '')
     @job.phase = phase;
@@ -115,7 +103,7 @@ class EncoderWorkerJob < ApplicationJob
       #audio_codec: "libfaac", audio_bitrate: 32, audio_sample_rate: 22050, audio_channels: 1,
       #threads: 2, custom: %w(-vf crop=60:60:10:10 -map 0:0 -map 0:1)
       #}
-      options = @job.params
+      options = JSON.parse(@job.params)
       counter = 0
       movie.transcode(@job.outname, options) do |progress|
         if (counter % 2 == 0)
